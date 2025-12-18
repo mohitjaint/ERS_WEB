@@ -26,32 +26,7 @@ export default async function GalleryPage() {
   return (
     <main className="min-h-screen bg-ers-black text-white selection:bg-ers-yellow selection:text-black font-body">
       
-      {/* --- NAVBAR (Consistent with Home) --- */}
-      <header className="sticky top-0 z-50">
-        <div className="bg-black border-b-4 border-ers-yellow shadow-[0_8px_0_0_#f4c430]">
-          <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 uppercase font-tech text-sm tracking-[0.2em]">
-            <div className="flex items-center gap-3">
-              <Link href="/" className="h-10 w-14 bg-ers-yellow clip-corner flex items-center justify-center text-black font-bold text-lg hover:bg-white transition-colors">
-                ERS
-              </Link>
-              <span className="text-ers-yellow/80 font-body text-xs hidden md:block">
-                / IMAGE_DATABASE
-              </span>
-            </div>
-            <div className="flex items-center gap-6">
-              <Link className="hover:text-ers-yellow transition-colors" href="/">
-                Home
-              </Link>
-              <Link className="hover:text-ers-yellow transition-colors" href="/events">
-                Events
-              </Link>
-              <Link className="text-ers-yellow" href="/gallery">
-                Gallery
-              </Link>
-            </div>
-          </nav>
-        </div>
-      </header>
+      
 
       {/* --- HEADER SECTION --- */}
       <section className="relative py-20 px-6 border-b border-white/10 bg-ers-dark/30">
