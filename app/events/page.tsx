@@ -58,7 +58,7 @@ export default async function EventsPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {upcomingEvents.map((event) => (
               <EventCard key={event._id} event={event} isUpcoming={true} />
             ))}
@@ -75,7 +75,7 @@ export default async function EventsPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
           {pastEvents.map((event) => (
             <EventCard key={event._id} event={event} isUpcoming={false} />
           ))}
@@ -86,67 +86,104 @@ export default async function EventsPage() {
 }
 
 // --- REUSABLE CARD COMPONENT ---
-function EventCard({ event, isUpcoming }: { event: Event; isUpcoming: boolean }) {
+function EventCard({
+  event,
+  isUpcoming,
+}: {
+  event: Event;
+  isUpcoming: boolean;
+}) {
   const dateObj = new Date(event.date);
-  
-  // Formatting the date nicely
-  const formattedDate = dateObj.toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric'
+
+  const formattedDate = dateObj.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
-  const formattedTime = dateObj.toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit'
+
+  const formattedTime = dateObj.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
   });
 
   return (
-    <div className={`
-      group relative flex flex-col bg-ers-dark border border-white/10 overflow-hidden
-      ${isUpcoming ? 'hover:border-ers-yellow/50 shadow-[0_0_30px_rgba(255,204,0,0.1)]' : 'opacity-80 hover:opacity-100'}
-      transition-all duration-300
-    `}>
-      
-      {/* Image Section */}
+    <div
+      className={`
+        group relative flex flex-col bg-ers-dark overflow-hidden
+        border transition-all duration-300
+        ${
+          isUpcoming
+            ? "border-ers-yellow/40 hover:border-ers-yellow shadow-[0_0_40px_rgba(244,196,48,0.15)]"
+            : "border-white/10 hover:border-white/30"
+        }
+      `}
+    >
+      {/* IMAGE */}
       <div className="relative h-64 w-full overflow-hidden">
         {event.coverImage ? (
           <Image
             src={urlFor(event.coverImage).width(800).height(500).url()}
             alt={event.title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className={`
+              object-cover transition-transform duration-700
+              ${isUpcoming ? "group-hover:scale-110" : ""}
+            `}
           />
         ) : (
-          <div className="w-full h-full bg-ers-black flex items-center justify-center border-b border-white/10">
-            <span className="text-gray-600 font-tech">NO SIGNAL</span>
+          <div className="w-full h-full bg-black flex items-center justify-center">
+            <span className="text-gray-600 font-tech tracking-widest">
+              NO SIGNAL
+            </span>
           </div>
         )}
-        
-        {/* Date Overlay Badge */}
-        <div className="absolute top-0 right-0 bg-ers-yellow text-black px-4 py-2 font-bold font-tech text-sm skew-x-[-10deg] translate-x-2 -translate-y-1">
+
+        {/* DATE BADGE */}
+        <div
+          className={`
+            absolute top-0 right-0 px-4 py-2 font-tech text-sm font-bold
+            skew-x-[-10deg] translate-x-2 -translate-y-1
+            ${
+              isUpcoming
+                ? "bg-ers-yellow text-black"
+                : "bg-gray-700 text-gray-300"
+            }
+          `}
+        >
           <div className="skew-x-[10deg]">{formattedDate}</div>
         </div>
       </div>
 
-      {/* Content Section */}
+      {/* CONTENT */}
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className={`text-2xl font-bold font-tech mb-3 ${isUpcoming ? 'text-white' : 'text-gray-400'}`}>
+        <h3
+          className={`
+            text-2xl font-tech mb-3
+            ${isUpcoming ? "text-white" : "text-gray-400"}
+          `}
+        >
           {event.title}
         </h3>
-        
-        <p className="text-gray-400 text-sm line-clamp-3 mb-6 flex-grow font-mono">
+
+        <p className="text-gray-400 text-sm line-clamp-3 mb-6 font-mono">
           {event.description}
         </p>
 
-        {/* Metadata Footer */}
-        <div className="flex items-center justify-between text-sm text-gray-500 border-t border-white/10 pt-4 mt-auto">
-          <div className="flex items-center gap-2">
+        {/* FOOTER */}
+        <div className="mt-auto flex items-center justify-between text-sm border-t border-white/10 pt-4">
+          <div className="flex items-center gap-2 text-gray-500">
             <Clock size={16} className="text-ers-yellow" />
             <span>{formattedTime}</span>
           </div>
-          
-          {/* Only show 'Register' arrow if upcoming */}
-          {isUpcoming && (
-            <div className="text-ers-yellow flex items-center gap-2 group-hover:translate-x-1 transition-transform">
-               DETAILS <ArrowRight size={16} />
+
+          {isUpcoming ? (
+            <div className="flex items-center gap-2 text-ers-yellow group-hover:translate-x-1 transition-transform">
+              DETAILS <ArrowRight size={16} />
             </div>
+          ) : (
+            <span className="text-gray-500 font-tech tracking-widest">
+              ARCHIVED
+            </span>
           )}
         </div>
       </div>
