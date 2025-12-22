@@ -10,7 +10,8 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "Events", href: "/events" },
   { name: "Team", href: "/team" },
-  { name: "Gallery", href: "/gallery" },
+  { name: "Projects", href: "/project" },
+  { name: "Achievements", href: "/achievements" },
 ];
 
 function NavBar() {
