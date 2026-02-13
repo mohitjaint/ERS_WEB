@@ -32,9 +32,9 @@ export default async function TeamPage() {
 
   const fics = members.filter((m) => m.role === "FIC");
   const coordinators = members.filter((m) => m.role === "Coordinator");
-  const coreMembers = members.filter(
-    (m) => m.role === "Member" || m.role === "Co-Coordinator"
-  );
+  const coCoordinators = members.filter((m) => m.role === "Co-Coordinator");
+  const allCoordinators = [...coordinators, ...coCoordinators];
+  const coreMembers = members.filter((m) => m.role === "Member");
 
   return (
     <main className="min-h-screen bg-ers-black text-white px-6 md:px-24 py-24 font-body">
@@ -71,7 +71,7 @@ export default async function TeamPage() {
         </h2>
 
         <div className="flex flex-wrap gap-8">
-          {coordinators.map((coord) => (
+          {allCoordinators.map((coord) => (
             <TeamCard
               key={coord._id}
               name={coord.name}

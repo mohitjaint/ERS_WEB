@@ -16,7 +16,7 @@ export default function TeamCard({
   linkedin,
 }: TeamCardProps) {
   return (
-    <div className="group relative aspect-[3/4] w-full max-w-sm h-auto min-h-[28rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
+    <div className="group relative aspect-[3/4] w-full max-w-xs h-auto min-h-[20rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
 
       {/* GLOW EFFECT BEHIND */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b from-ers-yellow/5 to-transparent pointer-events-none" />

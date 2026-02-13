@@ -13,9 +13,9 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Instagram, href: "https://www.instagram.com/ers_iiitdmj?igsh=Y3UyZGxpanAzM3hq", label: "Instagram" },
+  { icon: Linkedin, href: "https://www.linkedin.com/company/robotics-electronics-club-iiitdmj/", label: "LinkedIn" },
+  { icon: Github, href: "https://github.com/parthdude07/ERS_WEB", label: "GitHub" },
 ];
 
 export default function Footer() {
@@ -53,7 +53,7 @@ export default function Footer() {
             <ul className="space-y-3 font-body text-sm tracking-wide">
               {footerLinks.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-300 hover:text-ers-yellow transition-colors duration-200 flex items-center gap-2 group"
                   >
@@ -73,11 +73,15 @@ export default function Footer() {
             <div className="space-y-4 font-body text-sm text-gray-300">
               <a href="mailto:contact@ers-club.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-ers-yellow" />
-                <span>contact@ers-club.com</span>
+                <span>ers@iiitdmj.ac.in</span>
               </a>
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-ers-yellow" />
-                <span>University Campus, Tech Block</span>
+                <span>Pandit Dwarka Prasad Mishra
+                  Indian Institute of Information Technology, Design & Manufacturing
+                  Jabalpur
+                  Dumna Airport Road, P.O.: Khamaria,
+                  Jabalpur - 482 005, Madhya Pradesh, India</span>
               </div>
             </div>
 
