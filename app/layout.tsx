@@ -28,8 +28,54 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ERS Club",
-  description: "Electronics & Robotics Society",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://ers-pcte.vercel.app'),
+  title: {
+    default: "ERS| Electronics & Robotics Society",
+    template: "%s | ERS"
+  },
+  description: "Electronics & Robotics Society (ERS) - The industrial cyberpunk hub for makers, coders, and circuit-smiths. Building the future one solder joint at a time.",
+  keywords: ["Robotics", "Electronics", "IoT", "Coding", "Engineering", "Club", "Society", "Projects", "Workshops", "Hackathons"],
+  authors: [{ name: "ERS Team" }],
+  creator: "ERS",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "ERS | Electronics & Robotics Society",
+    description: "Industrial cyberpunk hub for makers, coders, and circuit-smiths.",
+    siteName: "ERS",
+    images: [
+      {
+        url: "/og-image.jpg", // Ensure you have an og-image.jpg in public folder
+        width: 1200,
+        height: 630,
+        alt: "ERS - Electronics & Robotics Society",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ERS | Electronics & Robotics Society",
+    description: "Industrial cyberpunk hub for makers, coders, and circuit-smiths.",
+    images: ["/og-image.jpg"],
+    creator: "@ers_club", 
+  },
+  icons: {
+    icon: "/logo1.png",
+    shortcut: "/logo1.png",
+    apple: "/logo1.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 async function getPopup() {
@@ -57,6 +103,27 @@ export default async function RootLayout({
       <body
         className={`${display.variable} ${body.variable} ${mono.variable} antialiased circuit-bg`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "ERS",
+              "url": "https://ers-pcte.vercel.app",
+              "logo": "https://ers-pcte.vercel.app/logo1.png",
+              "sameAs": [
+                "https://www.instagram.com/ers_club",
+                "https://www.linkedin.com/company/ers-club"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "",
+                "contactType": "customer service"
+              }
+            })
+          }}
+        />
         <Navbar />
         <PopupNotification popup={popup} />
         <SanityLive />

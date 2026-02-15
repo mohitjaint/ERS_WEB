@@ -50,7 +50,7 @@ export default async function AchievementsPage() {
                     src={urlFor(item.coverImage || item.image).width(500).url()}
                     alt={item.title}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="object-cover transition-all duration-500"
                   />
                 )}
               </div>

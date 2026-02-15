@@ -56,7 +56,7 @@ export default async function EventsPage() {
           <div className="flex items-center gap-4 mb-10">
             <div className="w-3 h-8 bg-ers-yellow" />
             <h2 className="text-3xl md:text-4xl font-tech tracking-wide text-white">
-              INCOMING SIGNALS <span className="text-ers-yellow text-lg animate-pulse">(UPCOMING)</span>
+              UPCOMING EVENTS 
             </h2>
           </div>
 
@@ -73,7 +73,7 @@ export default async function EventsPage() {
         <div className="flex items-center gap-4 mb-10">
           <div className="w-3 h-8 bg-gray-600" />
           <h2 className="text-3xl md:text-4xl font-tech tracking-wide text-gray-400">
-            ARCHIVED LOGS <span className="text-gray-600 text-lg">(PAST)</span>
+            PAST EVENTS 
           </h2>
         </div>
 
