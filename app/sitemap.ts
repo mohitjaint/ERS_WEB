@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/sanity/lib/client'
 
+export const dynamic = 'force-static'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ers-pcte.vercel.app'
   

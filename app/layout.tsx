@@ -30,7 +30,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://ers-pcte.vercel.app'),
   title: {
-    default: "ERS| Electronics & Robotics Society",
+    default: "ERS | Electronics & Robotics Society",
     template: "%s | ERS"
   },
   description: "Electronics & Robotics Society (ERS) - The industrial cyberpunk hub for makers, coders, and circuit-smiths. Building the future one solder joint at a time.",

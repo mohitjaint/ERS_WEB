@@ -5,6 +5,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ArrowLeft, ExternalLink } from 'lucide-react';
 
+export async function generateStaticParams() {
+  const query = `*[_type == "event"]{ "slug": slug.current }`;
+  const slugs = await client.fetch(query);
+
+  return slugs.map((item: { slug: string }) => ({
+    slug: item.slug,
+  }));
+}
+
 interface EventPageProps {
   params: Promise<{
     slug: string;

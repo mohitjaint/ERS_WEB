@@ -5,6 +5,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, Clock, ArrowLeft, ExternalLink, Trophy, Users } from 'lucide-react';
 
+export async function generateStaticParams() {
+  const query = `*[_type == "achievement"]{ "slug": slug.current }`;
+  const slugs = await client.fetch(query);
+
+  return slugs.map((item: { slug: string }) => ({
+    slug: item.slug,
+  }));
+}
+
 interface AchievementPageProps {
   params: Promise<{
     slug: string;
