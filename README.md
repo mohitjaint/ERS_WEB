@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Live Site
+
+https://robotics.iiitdmj.ac.in/
+
+## About
+
+This website is the public home for the IIITDM Jabalpur Robotics Club. It showcases club activities, events, projects, achievements, and team members, and provides a central place for updates and announcements.
+
 ## Getting Started
 
 First, run the development server:
