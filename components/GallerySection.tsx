@@ -1,19 +1,51 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/sanity";
 import Image from "next/image";
 
-async function getGalleryImages() {
-  const query = `
-    *[_type == "gallery" && defined(images)]{
-      images
-    }
-  `;
-  const { data: collections } = await sanityFetch({ query });
-  return collections.flatMap((c: any) => c.images || []);
-}
+export default function GallerySection() {
+  const [images, setImages] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function GallerySection() {
-  const images = await getGalleryImages();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `
+      *[_type == "gallery" && defined(images)]{
+        images
+      }
+    `;
+
+    sanityFetch({ query })
+      .then(({ data: collections }) => {
+        if (!isMounted) return;
+        const items = Array.isArray(collections)
+          ? collections.flatMap((c: any) => c.images || [])
+          : [];
+        setImages(items);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setImages([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section id="gallery" className="px-6 md:px-24 py-24 border-t border-white/10 bg-black">
+        <div className="text-center text-gray-500 font-mono">Loading gallery...</div>
+      </section>
+    );
+  }
 
   if (images.length === 0) return null;
 

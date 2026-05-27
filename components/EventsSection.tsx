@@ -1,22 +1,43 @@
+"use client";
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { sanityFetch } from "@/sanity/lib/live";
 import EventCard, { Event } from "./EventCard";
 
-async function getEvents() {
-  const query = `*[_type == "event"] | order(date desc) {
-    _id,
-    title,
-    slug,
-    date,
-    coverImage,
-    description
-  }`;
-  const { data } = await sanityFetch({ query });
-  return data;
-}
+export default function EventsSection({ limit }: { limit?: number }) {
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function EventsSection({ limit }: { limit?: number }) {
-  const allEvents: Event[] = await getEvents();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "event"] | order(date desc) {
+      _id,
+      title,
+      slug,
+      date,
+      coverImage,
+      description
+    }`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAllEvents(Array.isArray(data) ? (data as Event[]) : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAllEvents([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const now = new Date();
   const upcomingEvents = allEvents.filter((event) => new Date(event.date) >= now);
@@ -53,6 +74,18 @@ export default async function EventsSection({ limit }: { limit?: number }) {
       </div>
 
       <div className="max-w-7xl mx-auto space-y-24">
+        {isLoading && (
+          <div className="text-center text-gray-500 font-mono">
+            Loading events...
+          </div>
+        )}
+
+        {!isLoading && upcomingEvents.length === 0 && pastEvents.length === 0 && (
+          <div className="text-center text-gray-500 font-mono">
+            No events found.
+          </div>
+        )}
+
         {/* --- UPCOMING EVENTS SECTION --- */}
         {shownUpcoming.length > 0 && (
           <div className="animate-fade-in opacity-0 [animation-delay:300ms] reveal-on-scroll">

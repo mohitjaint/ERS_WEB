@@ -1,4 +1,8 @@
-import { client, urlFor } from "@/sanity/lib/sanity";
+"use client";
+
+import { useEffect, useState } from "react";
+import { urlFor } from "@/sanity/lib/sanity";
+import { sanityFetch } from "@/sanity/lib/live";
 import TeamCard from "@/components/TeamCard";
 
 // ================= TYPES =================
@@ -12,23 +16,41 @@ interface Member {
 
 
 // ================= DATA FETCH =================
-async function getTeam(): Promise<Member[]> {
-  const query = `
-    *[_type == "teamMember"]{
-      _id,
-      name,
-      role,
-      photo,
-      linkedin
-    } | order(name asc)
-  `;
-  return await client.fetch(query);
-}
-
-
 // ================= PAGE =================
-export default async function TeamPage() {
-  const members = await getTeam();
+export default function TeamPage() {
+  const [members, setMembers] = useState<Member[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const query = `
+      *[_type == "teamMember"]{
+        _id,
+        name,
+        role,
+        photo,
+        linkedin
+      } | order(name asc)
+    `;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setMembers(Array.isArray(data) ? (data as Member[]) : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setMembers([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const fics = members.filter((m) => m.role === "FIC");
   const coordinators = members.filter((m) => m.role === "Coordinator");
@@ -43,6 +65,18 @@ export default async function TeamPage() {
       <h1 className="text-5xl md:text-6xl font-tech text-ers-yellow text-center mb-24 tracking-widest animate-fade-in opacity-0 [animation-delay:100ms]">
         OUR TEAM
       </h1>
+
+      {isLoading && (
+        <div className="text-center text-gray-500 font-mono">
+          Loading team...
+        </div>
+      )}
+
+      {!isLoading && members.length === 0 && (
+        <div className="text-center text-gray-500 font-mono">
+          No team members found.
+        </div>
+      )}
 
       {/* ================= FACULTY IN-CHARGE ================= */}
       <section className="mb-32 animate-fade-in opacity-0 [animation-delay:300ms]">

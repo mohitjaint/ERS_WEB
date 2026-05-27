@@ -1,17 +1,39 @@
-import { client, urlFor } from '@/sanity/lib/sanity';
+"use client";
+
+import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/sanity';
 import { sanityFetch } from '@/sanity/lib/live';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Github, ExternalLink, Terminal } from 'lucide-react';
 
-async function getProjects() {
-  const query = `*[_type == "project"] | order(_createdAt desc)`;
-  const { data } = await sanityFetch({ query });
-  return data;
-}
+export default function ProjectsSection({ limit }: { limit?: number }) {
+  const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function ProjectsSection({ limit }: { limit?: number }) {
-  const allProjects = await getProjects();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "project"] | order(_createdAt desc)`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAllProjects(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAllProjects([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const projects = limit ? allProjects.slice(0, limit) : allProjects;
   const showViewMore = limit && allProjects.length > limit;
 
@@ -25,6 +47,18 @@ export default async function ProjectsSection({ limit }: { limit?: number }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto animate-fade-in opacity-0 [animation-delay:300ms] reveal-on-scroll">
+        {isLoading && (
+          <div className="col-span-full text-center text-gray-500 font-mono">
+            Loading projects...
+          </div>
+        )}
+
+        {!isLoading && projects.length === 0 && (
+          <div className="col-span-full text-center text-gray-500 font-mono">
+            No projects found.
+          </div>
+        )}
+
         {projects.map((proj: any) => (
           <div key={proj._id} className="group relative bg-black border border-ers-yellow/20 hover:border-ers-yellow transition-all duration-300 flex flex-col h-full hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2 overflow-hidden">
 

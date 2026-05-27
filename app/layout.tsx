@@ -4,8 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer";
 import PopupNotification from "@/components/PopupNotification";
-import { client } from "@/sanity/lib/sanity";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
 const display = Orbitron({
   variable: "--font-display",
@@ -78,26 +76,11 @@ export const metadata: Metadata = {
   },
 };
 
-async function getPopup() {
-  // Fetch the latest active popup
-  // We fetch a bit more than needed to let the client handle the exact date logic
-  // or we could filter here. For now, fetching the latest active one is good.
-  const query = `*[_type == "popup" && isActive == true] | order(date desc)[0] {
-    ...,
-    button1,
-    button2
-  }`;
-  const { data } = await sanityFetch({ query });
-  return data;
-}
-
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const popup = await getPopup();
-
   return (
     <html lang="en" >
       <body
@@ -125,8 +108,7 @@ export default async function RootLayout({
           }}
         />
         <Navbar />
-        <PopupNotification popup={popup} />
-        <SanityLive />
+        <PopupNotification />
         {children}
         <Footer />
       </body>

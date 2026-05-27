@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { urlFor } from '@/sanity/lib/sanity'
+import { sanityFetch } from '@/sanity/lib/live'
 import Image from 'next/image'
 import Link from 'next/link'
 import { X } from 'lucide-react'
@@ -17,8 +18,32 @@ interface PopupData {
   button2?: { label: string; url: string }
 }
 
-export default function PopupNotification({ popup }: { popup: PopupData | null }) {
+export default function PopupNotification() {
+  const [popup, setPopup] = useState<PopupData | null>(null)
   const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    let isMounted = true
+    const query = `*[_type == "popup" && isActive == true] | order(date desc)[0] {
+      ...,
+      button1,
+      button2
+    }`
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return
+        setPopup(data || null)
+      })
+      .catch(() => {
+        if (!isMounted) return
+        setPopup(null)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   useEffect(() => {
     if (!popup) return

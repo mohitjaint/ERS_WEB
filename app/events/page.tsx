@@ -1,8 +1,11 @@
-import { client, urlFor } from '@/sanity/lib/sanity';
+"use client";
+
+import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/sanity';
 import { sanityFetch } from '@/sanity/lib/live';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, ArrowRight } from 'lucide-react';
 
 // 1. Define what an Event looks like (Type Safety)
 interface Event {
@@ -14,23 +17,39 @@ interface Event {
   description: string;
 }
 
-// 2. Fetch data function
-// We order by date descending (newest first)
-async function getEvents() {
-  const query = `*[_type == "event"] | order(date desc) {
-    _id,
-    title,
-    slug,
-    date,
-    coverImage,
-    description
-  }`;
-  const { data } = await sanityFetch({ query });
-  return data;
-}
+export default function EventsPage() {
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function EventsPage() {
-  const allEvents: Event[] = await getEvents();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "event"] | order(date desc) {
+      _id,
+      title,
+      slug,
+      date,
+      coverImage,
+      description
+    }`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAllEvents(Array.isArray(data) ? (data as Event[]) : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAllEvents([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // 3. Logic to split Upcoming vs Past
   const now = new Date();
@@ -49,6 +68,18 @@ export default async function EventsPage() {
         </h1>
         <div className="h-1 w-32 bg-ers-yellow skew-x-[-20deg]" />
       </div>
+
+      {isLoading && (
+        <div className="text-center text-gray-500 font-mono">
+          Loading events...
+        </div>
+      )}
+
+      {!isLoading && upcomingEvents.length === 0 && pastEvents.length === 0 && (
+        <div className="text-center text-gray-500 font-mono">
+          No events found.
+        </div>
+      )}
 
       {/* --- UPCOMING EVENTS SECTION --- */}
       {upcomingEvents.length > 0 && (

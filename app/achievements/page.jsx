@@ -1,24 +1,47 @@
-import { client, urlFor } from '@/sanity/lib/sanity';
+"use client";
+
+import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/sanity';
+import { sanityFetch } from '@/sanity/lib/live';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Trophy, Calendar, Users } from 'lucide-react';
 
-async function getAchievements() {
-  const query = `*[_type == "achievement"] | order(date desc) {
-    _id,
-    title,
-    event,
-    date,
-    slug,
-    coverImage,
-    image,
-    teamMembers
-  }`;
-  return await client.fetch(query, {}, { next: { revalidate: 10 } });
-}
+export default function AchievementsPage() {
+  const [achievements, setAchievements] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function AchievementsPage() {
-  const achievements = await getAchievements();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "achievement"] | order(date desc) {
+      _id,
+      title,
+      event,
+      date,
+      slug,
+      coverImage,
+      image,
+      teamMembers
+    }`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAchievements(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAchievements([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-ers-black text-white p-6 md:p-20 font-body">
@@ -30,6 +53,18 @@ export default async function AchievementsPage() {
       </div>
 
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in opacity-0 [animation-delay:300ms]">
+        {isLoading && (
+          <div className="text-center text-gray-500 font-mono">
+            Loading achievements...
+          </div>
+        )}
+
+        {!isLoading && achievements.length === 0 && (
+          <div className="text-center text-gray-500 font-mono">
+            No achievements found.
+          </div>
+        )}
+
         {achievements.map((item) => (
           <Link 
             href={item.slug?.current ? `/achievements/${item.slug.current}` : '#'} 

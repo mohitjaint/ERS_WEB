@@ -1,4 +1,8 @@
-import { client, urlFor } from '@/sanity/lib/sanity';
+"use client";
+
+import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/sanity';
+import { sanityFetch } from '@/sanity/lib/live';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Trophy, Calendar, Users } from 'lucide-react';
@@ -14,22 +18,42 @@ interface Achievement {
   teamMembers?: string;
 }
 
-async function getAchievements() {
-  const query = `*[_type == "achievement"] | order(date desc) {
-    _id,
-    title,
-    event,
-    date,
-    slug,
-    coverImage,
-    image,
-    teamMembers
-  }`;
-  return await client.fetch(query, {}, { next: { revalidate: 10 } });
-}
+export default function AchievementsSection({ limit }: { limit?: number }) {
+  const [allAchievements, setAllAchievements] = useState<Achievement[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function AchievementsSection({ limit }: { limit?: number }) {
-  const allAchievements = await getAchievements();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "achievement"] | order(date desc) {
+      _id,
+      title,
+      event,
+      date,
+      slug,
+      coverImage,
+      image,
+      teamMembers
+    }`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setAllAchievements(Array.isArray(data) ? (data as Achievement[]) : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setAllAchievements([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const achievements = limit ? allAchievements.slice(0, limit) : allAchievements;
   const showViewMore = limit && allAchievements.length > limit;
 
@@ -46,6 +70,18 @@ export default async function AchievementsSection({ limit }: { limit?: number })
       </div>
 
       <div className="max-w-5xl mx-auto space-y-8 animate-fade-in opacity-0 [animation-delay:300ms] reveal-on-scroll">
+        {isLoading && (
+          <div className="text-center text-gray-500 font-mono">
+            Loading achievements...
+          </div>
+        )}
+
+        {!isLoading && achievements.length === 0 && (
+          <div className="text-center text-gray-500 font-mono">
+            No achievements found.
+          </div>
+        )}
+
         {achievements.map((item: Achievement) => (
           <Link 
             href={item.slug?.current ? `/achievements/${item.slug.current}` : '#'} 

@@ -16,13 +16,21 @@
 # next.js
 /.next/
 /out/
-
+/static/
 # production
 /build
 
 # misc
 .DS_Store
 *.pem
+
+# tooling
+.turbo
+.eslintcache
+.stylelintcache
+.cache
+.netlify
+.swc
 
 # debug
 npm-debug.log*

@@ -1,17 +1,38 @@
-import { client, urlFor } from '@/sanity/lib/sanity';
+"use client";
+
+import { useEffect, useState } from 'react';
+import { urlFor } from '@/sanity/lib/sanity';
 import { sanityFetch } from '@/sanity/lib/live';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Cpu, Github, ExternalLink, Terminal } from 'lucide-react';
+import { Github, ExternalLink, Terminal } from 'lucide-react';
 
-async function getProjects() {
-  const query = `*[_type == "project"] | order(_createdAt desc)`;
-  const { data } = await sanityFetch({ query });
-  return data;
-}
+export default function ProjectsPage() {
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-export default async function ProjectsPage() {
-  const projects = await getProjects();
+  useEffect(() => {
+    let isMounted = true;
+    const query = `*[_type == "project"] | order(_createdAt desc)`;
+
+    sanityFetch({ query })
+      .then(({ data }) => {
+        if (!isMounted) return;
+        setProjects(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setProjects([]);
+      })
+      .finally(() => {
+        if (!isMounted) return;
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-ers-black text-white p-6 md:p-20 font-body">
@@ -23,6 +44,18 @@ export default async function ProjectsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto animate-fade-in opacity-0 [animation-delay:300ms]">
+        {isLoading && (
+          <div className="col-span-full text-center text-gray-500 font-mono">
+            Loading projects...
+          </div>
+        )}
+
+        {!isLoading && projects.length === 0 && (
+          <div className="col-span-full text-center text-gray-500 font-mono">
+            No projects found.
+          </div>
+        )}
+
         {projects.map((proj) => (
           <div key={proj._id} className="group relative bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 flex flex-col h-full hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2 overflow-hidden">
 
