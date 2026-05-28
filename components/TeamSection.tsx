@@ -67,15 +67,14 @@ export default function TeamSection({ limit }: { limit?: number }) {
   return (
     <section id="team" className="min-h-screen px-6 md:px-24 py-24 border-t border-white/10 bg-black/80">
       
-      {/* PAGE TITLE */}
-      <div className="text-center mb-24 animate-fade-in opacity-0 [animation-delay:100ms] reveal-on-scroll">
-        <h2 className="text-4xl md:text-6xl font-tech text-ers-yellow tracking-widest mb-4">
-          OUR TEAM
-        </h2>
-        <p className="text-gray-500 font-mono">The minds behind the machines.</p>
-      </div>
-
       <div className="max-w-7xl mx-auto">
+        {/* PAGE TITLE */}
+        <div className="text-center mb-24 animate-fade-in opacity-0 [animation-delay:100ms] reveal-on-scroll">
+          <h2 className="text-4xl md:text-6xl font-tech text-ers-yellow tracking-widest mb-4">
+            OUR TEAM
+          </h2>
+          <p className="text-gray-500 font-mono">The minds behind the machines.</p>
+        </div>
         {isLoading && (
           <div className="text-center text-gray-500 font-mono">
             Loading team...
@@ -94,7 +93,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               FACULTY IN-CHARGE
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {fics.map((fic) => (
                 <TeamCard
                   key={fic._id}
@@ -115,7 +114,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               LEADERSHIP & COORDINATORS
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {displayedCoordinators.map((coord) => (
                 <TeamCard
                   key={coord._id}
@@ -137,7 +136,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               CORE MEMBERS
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {displayedCore.map((mem) => (
                 <TeamCard
                   key={mem._id}
