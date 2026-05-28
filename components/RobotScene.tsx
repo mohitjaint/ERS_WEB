@@ -26,6 +26,7 @@ function ControlsWithReturn() {
   return (
     <OrbitControls
       ref={controls}
+      enableRotate={false}
       enablePan={false}
       enableZoom={false}
       enableDamping

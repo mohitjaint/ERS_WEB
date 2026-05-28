@@ -9,6 +9,7 @@ import { SkeletonUtils } from 'three-stdlib'
 export default function RobotArm() {
   const { scene } = useGLTF('/models/robot-arm-animated.glb')
   const { gl } = useThree()
+  const interactionEnabled = true
 
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
 
@@ -49,6 +50,11 @@ export default function RobotArm() {
       }
     }
 
+    if (!interactionEnabled) {
+      active.current = false
+      return
+    }
+
     // 2. SETUP MOUSE AUTO-RESET via Canvas Events
     const canvas = gl.domElement
     const handleEnter = () => { active.current = true }
@@ -65,7 +71,7 @@ export default function RobotArm() {
       canvas.removeEventListener('pointerleave', handleLeave)
       canvas.removeEventListener('pointermove', handleMove)
     }
-  }, [clone, gl])
+  }, [clone, gl, interactionEnabled])
 
 
 
@@ -82,8 +88,8 @@ export default function RobotArm() {
     const { pointer } = state
 
     // If active, use pointer. If inactive (left screen), go to 0,0 (Rest Pose)
-    const px = active.current ? pointer.x : 0
-    const py = active.current ? pointer.y : 0
+    const px = interactionEnabled && active.current ? pointer.x : 0
+    const py = interactionEnabled && active.current ? pointer.y : 0
 
     // Base: Horizontal
     if (bones.current.base) {

@@ -16,7 +16,7 @@ export default function TeamCard({
   linkedin,
 }: TeamCardProps) {
   return (
-    <div className="group relative aspect-[3/4] w-full max-w-xs h-auto min-h-[20rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
+    <div className="group relative aspect-[3/4] w-full min-h-[18rem] sm:min-h-[20rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
 
       {/* GLOW EFFECT BEHIND */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b from-ers-yellow/5 to-transparent pointer-events-none" />
@@ -44,7 +44,7 @@ export default function TeamCard({
       </div>
 
       {/* INFO */}
-      <div className="p-5 flex flex-col gap-2 relative z-20">
+      <div className="p-4 sm:p-5 flex flex-col gap-2 relative z-20">
         <h3 className="text-xl font-tech text-white tracking-wide group-hover:text-ers-yellow transition-colors duration-300">
           {name}
         </h3>
