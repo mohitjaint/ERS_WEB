@@ -85,7 +85,7 @@ export default function TeamPage() {
             FACULTY IN-CHARGE
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {fics.map((fic) => (
               <TeamCard
                 key={fic._id}
@@ -105,7 +105,7 @@ export default function TeamPage() {
             COORDINATORS
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {allCoordinators.map((coord) => (
               <TeamCard
                 key={coord._id}
@@ -125,7 +125,7 @@ export default function TeamPage() {
             CORE MEMBERS
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {coreMembers.map((mem) => (
               <TeamCard
                 key={mem._id}

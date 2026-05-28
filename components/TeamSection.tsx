@@ -89,12 +89,12 @@ export default function TeamSection({ limit }: { limit?: number }) {
         )}
         {/* ================= FACULTY IN-CHARGE ================= */}
         {fics.length > 0 && (
-          <div className="mb-32 animate-fade-in opacity-0 [animation-delay:300ms] reveal-on-scroll">
+          <div className="mb-24 md:mb-32 animate-fade-in opacity-0 [animation-delay:300ms] reveal-on-scroll">
             <h3 className="text-2xl font-tech mb-14 border-l-4 border-ers-yellow pl-4 text-white">
               FACULTY IN-CHARGE
             </h3>
 
-            <div className="flex flex-wrap gap-8 justify-center md:justify-start">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
               {fics.map((fic) => (
                 <TeamCard
                   key={fic._id}
@@ -110,12 +110,12 @@ export default function TeamSection({ limit }: { limit?: number }) {
 
         {/* ================= COORDINATORS ================= */}
         {displayedCoordinators.length > 0 && (
-          <div className="mb-32 animate-fade-in opacity-0 [animation-delay:500ms] reveal-on-scroll">
+          <div className="mb-24 md:mb-32 animate-fade-in opacity-0 [animation-delay:500ms] reveal-on-scroll">
             <h3 className="text-2xl font-tech mb-14 border-l-4 border-white pl-4 text-white">
               LEADERSHIP & COORDINATORS
             </h3>
 
-            <div className="flex flex-wrap gap-8 justify-center md:justify-start">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
               {displayedCoordinators.map((coord) => (
                 <TeamCard
                   key={coord._id}
@@ -137,7 +137,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               CORE MEMBERS
             </h3>
 
-            <div className="flex flex-wrap gap-8 justify-center md:justify-start">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
               {displayedCore.map((mem) => (
                 <TeamCard
                   key={mem._id}
