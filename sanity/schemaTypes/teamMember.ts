@@ -27,6 +27,21 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'batch',
+      title: 'Batch',
+      type: 'number',
+      hidden: ({ document }) => document?.role === 'FIC',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const role = context.document?.role
+          if (role === 'FIC') return true
+          if (value === undefined || value === null) return 'Batch is required'
+          if (!Number.isInteger(value)) return 'Batch must be a year'
+          if (value < 1900 || value > 2100) return 'Batch must be a valid year'
+          return true
+        }),
+    }),
+    defineField({
       name: 'photo',
       title: 'Profile Photo',
       type: 'image',
