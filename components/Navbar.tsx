@@ -49,7 +49,7 @@ function NavBar() {
           {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
 
               return (
                 <Link
@@ -82,7 +82,7 @@ function NavBar() {
           <div className="md:hidden border-t border-ers-yellow/30 bg-black/95 backdrop-blur-xl animate-slide-down">
             <div className="flex flex-col px-6 py-6 gap-4">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
 
                 return (
                   <Link

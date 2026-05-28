@@ -62,6 +62,21 @@
         "type": "string"
       },
       {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "hidden": "conditional",
+        "name": "batch",
+        "type": "number"
+      },
+      {
         "options": {
           "hotspot": true
         },
