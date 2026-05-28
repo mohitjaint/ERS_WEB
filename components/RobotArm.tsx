@@ -85,11 +85,15 @@ export default function RobotArm() {
 
     const safeDelta = Math.min(delta, 0.1)
     const t = 2.5 * safeDelta
-    const { pointer } = state
+    const { pointer, clock } = state
+    const isActive = interactionEnabled && active.current
+    const time = clock.getElapsedTime()
+    const idlePx = (Math.sin(time * 0.2) * 0.12) + (Math.sin(time * 0.07 + 1.2) * 0.06)
+    const idlePy = (Math.cos(time * 0.18) * 0.1) + (Math.sin(time * 0.05 + 0.4) * 0.05)
 
-    // If active, use pointer. If inactive (left screen), go to 0,0 (Rest Pose)
-    const px = interactionEnabled && active.current ? pointer.x : 0
-    const py = interactionEnabled && active.current ? pointer.y : 0
+    // If active, use pointer. If inactive, use slow idle motion.
+    const px = isActive ? pointer.x : idlePx
+    const py = isActive ? pointer.y : idlePy
 
     // Base: Horizontal
     if (bones.current.base) {
