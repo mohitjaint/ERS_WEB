@@ -10,6 +10,7 @@ interface Member {
   _id: string;
   name: string;
   role: string;
+  batch?: number;
   photo?: any;
   linkedin?: string;
 }
@@ -28,6 +29,7 @@ export default function TeamPage() {
         _id,
         name,
         role,
+        batch,
         photo,
         linkedin
       } | order(name asc)
@@ -91,6 +93,7 @@ export default function TeamPage() {
                 key={fic._id}
                 name={fic.name}
                 role="Faculty In-Charge"
+                batch={fic.batch}
                 imageUrl={fic.photo && urlFor(fic.photo).width(600).url()}
                 linkedin={fic.linkedin}
                 eager
@@ -112,6 +115,7 @@ export default function TeamPage() {
                 key={coord._id}
                 name={coord.name}
                 role={coord.role}
+                batch={coord.batch}
                 imageUrl={coord.photo && urlFor(coord.photo).width(500).url()}
                 linkedin={coord.linkedin}
                 eager
@@ -133,6 +137,7 @@ export default function TeamPage() {
                 key={mem._id}
                 name={mem.name}
                 role={mem.role}
+                batch={mem.batch}
                 imageUrl={mem.photo && urlFor(mem.photo).width(400).url()}
                 linkedin={mem.linkedin}
                 eager

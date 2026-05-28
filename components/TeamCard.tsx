@@ -8,6 +8,7 @@ interface TeamCardProps {
   imageUrl?: string;
   linkedin?: string;
   eager?: boolean;
+  batch?: number;
 }
 
 export default function TeamCard({
@@ -16,6 +17,7 @@ export default function TeamCard({
   imageUrl,
   linkedin,
   eager = false,
+  batch,
 }: TeamCardProps) {
   return (
     <div className="group relative aspect-[3/4] w-full min-h-[18rem] sm:min-h-[20rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
@@ -57,7 +59,13 @@ export default function TeamCard({
           {role}
         </p>
 
-        <div className="mt-3 h-px bg-ers-yellow/30 group-hover:bg-ers-yellow group-hover:w-full w-10 transition-all duration-500" />
+        {batch && role !== "FIC" && (
+          <p className="text-xs uppercase tracking-[0.2em] text-white/50 font-mono">
+            Batch {batch}
+          </p>
+        )}
+
+        <div className="mt-3 h-px bg-ers-yellow/30 group-hover:bg-ers-yellow group-hover:w-[calc(100%-3rem)] w-10 transition-all duration-500" />
       </div>
 
       {/* LINKEDIN */}
