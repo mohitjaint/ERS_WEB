@@ -94,7 +94,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               FACULTY IN-CHARGE
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
               {fics.map((fic) => (
                 <TeamCard
                   key={fic._id}
@@ -115,7 +115,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               LEADERSHIP & COORDINATORS
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
               {displayedCoordinators.map((coord) => (
                 <TeamCard
                   key={coord._id}
@@ -137,7 +137,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
               CORE MEMBERS
             </h3>
 
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,320px))] gap-6 md:gap-8 justify-center">
               {displayedCore.map((mem) => (
                 <TeamCard
                   key={mem._id}

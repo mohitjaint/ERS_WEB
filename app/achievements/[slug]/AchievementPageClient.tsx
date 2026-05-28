@@ -93,7 +93,7 @@ export default function AchievementPageClient({ slug }: { slug: string }) {
   return (
     <main className="min-h-screen bg-ers-black text-white font-body selection:bg-ers-yellow selection:text-black">
       {/* HERO SECTION */}
-      <div className="relative h-[50vh] w-full overflow-hidden border-b border-ers-yellow/30">
+      <div className="relative min-h-[60vh] w-full overflow-hidden border-b border-ers-yellow/30">
         {(achievement.coverImage || achievement.image) ? (
           <Image
             src={urlFor(achievement.coverImage || achievement.image).url()}
@@ -112,7 +112,7 @@ export default function AchievementPageClient({ slug }: { slug: string }) {
         <div className="absolute inset-0 bg-gradient-to-t from-ers-black via-ers-black/50 to-transparent" />
 
         {/* Content Container */}
-        <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 max-w-7xl mx-auto">
+        <div className="relative z-10 flex h-full flex-col justify-end px-8 pb-10 pt-24 md:px-16 md:pb-16 md:pt-28 max-w-7xl mx-auto">
           <Link
             href="/achievements"
             className="inline-flex items-center gap-2 text-ers-yellow hover:text-white transition-colors mb-6 font-mono text-sm"

@@ -11,11 +11,12 @@ export async function generateStaticParams() {
 }
 
 interface AchievementPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default function AchievementPage({ params }: AchievementPageProps) {
-  return <AchievementPageClient slug={params.slug} />;
+export default async function AchievementPage({ params }: AchievementPageProps) {
+  const { slug } = await params;
+  return <AchievementPageClient slug={slug} />;
 }
