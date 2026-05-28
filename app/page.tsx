@@ -25,7 +25,7 @@ export default async function Home() {
         <div className="relative w-full grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8 px-6 pt-24 pb-12 md:py-20 items-center max-w-7xl mx-auto h-full">
 
           {/* LEFT: ROBOT (Mobile: Bottom, Desktop: Left) */}
-          <div className="relative hidden md:flex items-center justify-center overflow-visible order-2 md:order-1 animate-fade-in [animation-delay:200ms] opacity-0 md:h-[80vh] w-full">
+          <div className="relative hidden md:flex items-center justify-center overflow-visible order-2 md:order-1 animate-fade-in [animation-delay:200ms] opacity-0 md:h-[80vh] w-full md:-mt-12">
 
             {/* Glow */}
             <div className="absolute inset-x-0 bottom-0 md:inset-0 flex items-center justify-center pointer-events-none z-0">
