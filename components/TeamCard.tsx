@@ -7,6 +7,7 @@ interface TeamCardProps {
   role: string;
   imageUrl?: string;
   linkedin?: string;
+  eager?: boolean;
 }
 
 export default function TeamCard({
@@ -14,6 +15,7 @@ export default function TeamCard({
   role,
   imageUrl,
   linkedin,
+  eager = false,
 }: TeamCardProps) {
   return (
     <div className="group relative aspect-[3/4] w-full min-h-[18rem] sm:min-h-[20rem] bg-black border border-ers-yellow/40 hover:border-ers-yellow transition-all duration-300 hover:shadow-[0_0_20px_rgba(244,196,48,0.15)] hover:-translate-y-2">
@@ -31,6 +33,8 @@ export default function TeamCard({
             src={imageUrl}
             alt={name}
             fill
+            loading={eager ? "eager" : "lazy"}
+            priority={eager}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
         ) : (

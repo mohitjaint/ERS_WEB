@@ -93,6 +93,7 @@ export default function TeamPage() {
                 role="Faculty In-Charge"
                 imageUrl={fic.photo && urlFor(fic.photo).width(600).url()}
                 linkedin={fic.linkedin}
+                eager
               />
             ))}
           </div>
@@ -113,6 +114,7 @@ export default function TeamPage() {
                 role={coord.role}
                 imageUrl={coord.photo && urlFor(coord.photo).width(500).url()}
                 linkedin={coord.linkedin}
+                eager
               />
 
             ))}
@@ -133,6 +135,7 @@ export default function TeamPage() {
                 role={mem.role}
                 imageUrl={mem.photo && urlFor(mem.photo).width(400).url()}
                 linkedin={mem.linkedin}
+                eager
               />
 
             ))}
