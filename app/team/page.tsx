@@ -32,7 +32,7 @@ export default function TeamPage() {
         batch,
         photo,
         linkedin
-      } | order(name asc)
+      } | order(batch asc, name asc)
     `;
 
     sanityFetch({ query })

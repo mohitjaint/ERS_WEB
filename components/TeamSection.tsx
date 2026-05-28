@@ -31,7 +31,7 @@ export default function TeamSection({ limit }: { limit?: number }) {
         batch,
         photo,
         linkedin
-      } | order(name asc)
+      } | order(batch asc, name asc)
     `;
 
     sanityFetch({ query })
